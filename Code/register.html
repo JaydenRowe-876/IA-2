@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechWave Gadgets | Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Tech<span>Wave</span> Gadgets</div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <h1>Create an Account</h1>
+    <p class="section-subtitle">
+        Register to save your details, view invoices, and checkout faster.
+    </p>
+
+    <form id="registerForm" aria-labelledby="register-form-title">
+        <h2 id="register-form-title" style="margin-bottom:0.75rem;">Registration Form</h2>
+
+        <div class="form-grid-two">
+            <div class="form-group">
+                <label for="reg-firstname">First Name</label>
+                <input type="text" id="reg-firstname" name="firstname" required>
+            </div>
+            <div class="form-group">
+                <label for="reg-lastname">Last Name</label>
+                <input type="text" id="reg-lastname" name="lastname" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="reg-dob">Date of Birth</label>
+            <input type="date" id="reg-dob" name="dob" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reg-username">Username</label>
+            <input type="text" id="reg-username" name="username" required>
+        </div>
+
+        <div class="form-grid-two">
+            <div class="form-group">
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="reg-confirmpassword">Confirm Password</label>
+                <input type="password" id="reg-confirmpassword" name="confirm_password" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+
+        <p class="small-text" style="margin-top:0.5rem;">
+            Already have an account? <a href="login.html">Login here</a>.
+        </p>
+    </form>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <span>&copy; 2025 TechWave Gadgets.</span>
+    </div>
+</footer>
+
+<script>
+// ==========================
+// HANDLE REGISTRATION
+// ==========================
+
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let firstname = document.getElementById("reg-firstname").value.trim();
+    let lastname = document.getElementById("reg-lastname").value.trim();
+    let dob = document.getElementById("reg-dob").value;
+    let email = document.getElementById("reg-email").value.trim();
+    let username = document.getElementById("reg-username").value.trim();
+    let password = document.getElementById("reg-password").value;
+    let confirm = document.getElementById("reg-confirmpassword").value;
+
+    // Check password match
+    if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    // Load existing users
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Prevent duplicate usernames
+    if (users.some(user => user.username === username)) {
+        alert("Username already exists. Choose another.");
+        return;
+    }
+
+    // Save new user
+    let newUser = {
+        firstname,
+        lastname,
+        dob,
+        email,
+        username,
+        password // (Stored in plain text only for project requirement)
+    };
+
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registration successful! Redirecting to login...");
+
+    // Redirect to login page
+    window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechWave Gadgets | Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Tech<span>Wave</span> Gadgets</div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <h1>Checkout</h1>
+    <p class="section-subtitle">Review your order and enter your shipping details.</p>
+
+    <section>
+        <div class="form-grid-two">
+
+            <!-- ORDER SUMMARY (DYNAMIC) -->
+            <div>
+                <h2>Order Summary</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Total (JMD)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checkout-items"></tbody>
+
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">Sub-total:</td>
+                                <td id="subtotal"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Discount (5%):</td>
+                                <td id="discount"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Tax (15% GCT):</td>
+                                <td id="tax"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>Order Total:</strong></td>
+                                <td><strong id="total"></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SHIPPING FORM -->
+            <form id="checkoutForm">
+                <h2>Shipping Details</h2>
+
+                <div class="form-group">
+                    <label for="ship-name">Full Name</label>
+                    <input type="text" id="ship-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-address1">Address Line 1</label>
+                    <input type="text" id="ship-address1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-city">City</label>
+                    <input type="text" id="ship-city" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-parish">Parish</label>
+                    <input type="text" id="ship-parish" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-phone">Phone</label>
+                    <input type="tel" id="ship-phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-email">Email</label>
+                    <input type="email" id="ship-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ship-amount">Amount Being Paid (JMD)</label>
+                    <input type="number" id="ship-amount" step="0.01" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Confirm Order</button>
+                <button type="reset" class="btn btn-danger">Clear All</button>
+                <a href="../index.html" class="btn btn-outline">Close</a>
+            </form>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <span>&copy; 2025 TechWave Gadgets.</span>
+    </div>
+</footer>
+
+<script>
+// ====================
+// LOAD CART DYNAMICALLY
+// ====================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let tbody = document.getElementById("checkout-items");
+
+let subtotal = 0;
+
+cart.forEach(item => {
+    let itemTotal = item.qty * item.price;
+    subtotal += itemTotal;
+
+    tbody.innerHTML += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>${itemTotal.toLocaleString()}</td>
+        </tr>
+    `;
+});
+
+// Calculations
+let discount = subtotal * 0.05;
+let tax = (subtotal - discount) * 0.15;
+let total = subtotal - discount + tax;
+
+// Display values
+document.getElementById("subtotal").innerText = subtotal.toLocaleString();
+document.getElementById("discount").innerText = "-" + discount.toLocaleString();
+document.getElementById("tax").innerText = tax.toLocaleString();
+document.getElementById("total").innerText = total.toLocaleString();
+
+// ====================
+// CONFIRM ORDER
+// ====================
+
+document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    alert("Order confirmed! Your invoice will be generated.");
+    window.location.href = "invoice.html";
+});
+</script>
+
+</body>
+</html>

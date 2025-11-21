@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechWave Gadgets | Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Tech<span>Wave</span> Gadgets</div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <h1>Customer Login</h1>
+    <p class="section-subtitle">
+        Log in to access your account, view your orders, and manage your cart.
+    </p>
+
+    <form id="loginForm" aria-labelledby="login-form-title">
+        <h2 id="login-form-title" style="margin-bottom:0.75rem;">Login Form</h2>
+
+        <div class="form-group">
+            <label for="login-username">Username or Email</label>
+            <input type="text" id="login-username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="remember">
+                Remember me
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+
+        <p class="small-text" style="margin-top:0.5rem;">
+            Don't have an account? <a href="register.html">Register here</a>.
+        </p>
+    </form>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <span>&copy; 2025 TechWave Gadgets.</span>
+        <span>Secure login area.</span>
+    </div>
+</footer>
+
+<script>
+// ==========================
+// LOGIN SYSTEM
+// ==========================
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let usernameInput = document.getElementById("login-username").value.trim();
+    let passwordInput = document.getElementById("login-password").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Find user by username OR email
+    let validUser = users.find(user => 
+        (user.username === usernameInput || user.email === usernameInput) &&
+        user.password === passwordInput
+    );
+
+    if (!validUser) {
+        alert("Invalid username/email or password.");
+        return;
+    }
+
+    // Store logged-in user
+    localStorage.setItem("loggedInUser", JSON.stringify(validUser));
+
+    alert("Login successful! Redirecting to home...");
+
+    // Redirect to home page
+    window.location.href = "../index.html";
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechWave Gadgets | Invoice</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Tech<span>Wave</span> Gadgets</div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <h1>Invoice</h1>
+    <p class="section-subtitle">Here is the summary of your completed order.</p>
+
+    <section>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Total (JMD)</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items"></tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Sub-total:</td>
+                        <td id="subtotal"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Discount (5%):</td>
+                        <td id="discount"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Tax (15% GCT):</td>
+                        <td id="tax"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>Order Total:</strong></td>
+                        <td><strong id="total"></strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div style="margin-top:1rem;">
+            <a href="../index.html" class="btn btn-primary">Back to Home</a>
+            <a href="cart.html" class="btn btn-outline">Shop Again</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <span>&copy; 2025 TechWave Gadgets.</span>
+    </div>
+</footer>
+
+<script>
+// ====================
+// LOAD CART FOR INVOICE
+// ====================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let tbody = document.getElementById("invoice-items");
+
+let subtotal = 0;
+
+cart.forEach(item => {
+    let itemTotal = item.qty * item.price;
+    subtotal += itemTotal;
+
+    tbody.innerHTML += `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>${itemTotal.toLocaleString()}</td>
+        </tr>
+    `;
+});
+
+// Calculations
+let discount = subtotal * 0.05;
+let tax = (subtotal - discount) * 0.15;
+let total = subtotal - discount + tax;
+
+// Display totals
+document.getElementById("subtotal").innerText = subtotal.toLocaleString();
+document.getElementById("discount").innerText = "-" + discount.toLocaleString();
+document.getElementById("tax").innerText = tax.toLocaleString();
+document.getElementById("total").innerText = total.toLocaleString();
+
+// OPTIONAL: Clear cart after invoice
+// localStorage.removeItem("cart");
+</script>
+
+</body>
+</html>
